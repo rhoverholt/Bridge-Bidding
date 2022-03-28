@@ -5,9 +5,12 @@ const lengthPointsEl = document.getElementById("length-points");
 
 const biddingInputEl = document.getElementById("bidding-input");
 
+const userBidEl = document.getElementById("user-bid");
 const userMsgEl = document.getElementById("user-msg");
 
-let bidSuitEl, bidStrainEl; // to process bidding entry
+let bidRankEl,
+  bidStrainEl,
+  alreadyBid = false; // to process bidding entry
 
 const CLUBS = 0,
   DIAMONDS = 1,
@@ -49,7 +52,6 @@ function getAndDisplayCards() {
       while (numArray.includes(newNum)) {
         // no repeats allowed
         newNum = Math.floor(Math.random() * 52); // a random number from 0-51
-        console.log("Fixing Duplicate: " + newNum);
       }
       numArray.push(newNum);
       cardArray.push(Card(newNum));
@@ -192,8 +194,8 @@ function openingBid(hand) {
 
 let hand = Hand(getAndDisplayCards());
 
-let myBid = openingBid(hand);
-userMsgEl.textContent = `I would ${myBid === "PASS" ? myBid : "bid " + myBid}`;
+// let myBid = openingBid(hand);
+// userMsgEl.textContent = `I would ${myBid === "PASS" ? myBid : "bid " + myBid}`;
 
 function buttonClick() {
   console.log("HI!");
@@ -237,14 +239,73 @@ for (idx = 0; idx < buttonEls.length; idx++) {
 }
 
 function handleBiddingButtons() {
-  if (this.id == "X" || this.id == "XX")
-    return (userMsgEl = `Doubles have not yet been implemented`);
-
-  if (this.id == "PASS") {
-    disableBiddingButtons();
-    userMsgEl = "Your bid was 'PASS'";
+  if (alreadyBid) {
+    console.log("Ignoring click as bid already made");
     return;
   }
 
-  userMsgEl = `Still working on implementing the rank/strain bids`;
+  if (this.id == "X" || this.id == "XX")
+    return (userBidEl.textContent = `Doubles have not yet been implemented`);
+
+  if (this.id == "PASS") {
+    alreadyBid = true;
+    if (bidRankEl) bidRankEl.classList.remove("button-selected");
+    if (bidStrainEl) bidStrainEl.classList.remove("button-selected");
+    bidRankEl = null;
+    bidStrainEl = null;
+    console.log(userBidEl);
+    userBidEl.textContent = "Your bid was 'PASS'";
+    this.classList.add("button-selected");
+
+    let myBid = openingBid(hand);
+    userMsgEl.textContent = `I would ${
+      myBid === "PASS" ? myBid : "bid " + myBid
+    }`;
+
+    return;
+  }
+
+  if (["1", "2", "3", "4", "5", "6", "7"].includes(this.id)) {
+    if (bidRankEl === this) {
+      this.classList.remove("button-selected");
+      return (bidRankEl = null);
+    }
+
+    if (bidRankEl) {
+      bidRankEl.classList.remove("button-selected");
+      bidRankEl = this;
+      bidRankEl.classList.add("button-selected");
+      return;
+    }
+
+    bidRankEl = this;
+    bidRankEl.classList.add("button-selected");
+  } else {
+    if (bidStrainEl === this) {
+      this.classList.remove("button-selected");
+      return (bidStrainEl = null);
+    }
+
+    if (bidStrainEl) {
+      bidStrainEl.classList.remove("button-selected");
+      bidStrainEl = this;
+      bidStrainEl.classList.add("button-selected");
+      return;
+    }
+
+    bidStrainEl = this;
+    bidStrainEl.classList.add("button-selected");
+  }
+
+  if (bidStrainEl && bidRankEl) {
+    alreadyBid = true;
+    userBidEl.textContent = "Your bid: " + bidRankEl.id + bidStrainEl.id;
+
+    let myBid = openingBid(hand);
+    userMsgEl.textContent = `I would ${
+      myBid === "PASS" ? myBid : "bid " + myBid
+    }`;
+
+    return;
+  }
 }

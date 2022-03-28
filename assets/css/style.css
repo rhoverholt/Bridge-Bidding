@@ -53,6 +53,7 @@ span {
   text-align: right;
 }
 
+.button-selected,
 .bidding-button:hover {
   background-color: black;
   color: white;
