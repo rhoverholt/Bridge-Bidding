@@ -58,3 +58,15 @@ span {
   background-color: black;
   color: white;
 }
+
+.confetti {
+  position: absolute;
+  height: 500px;
+  width: 100%;
+  user-select: none;
+  z-index: -1;
+}
+
+.container {
+  position: relative;
+}
