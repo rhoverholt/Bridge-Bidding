@@ -1,0 +1,59 @@
+.hidden {
+  display: none;
+}
+
+#hand {
+  background-color: #339900;
+  padding: 10px 85px 10px 10px;
+}
+
+.card-holder {
+  width: 15px;
+  display: inline-block;
+}
+
+.card {
+  width: 90px;
+  text-align: center;
+  background: #fff;
+  box-shadow: 1px 1px 3px #000;
+  -moz-box-shadow: 1px 1px 3px #000;
+  -webkit-box-shadow: 1px 1px 3px #000;
+  border-radius: 10px;
+  border-color: gray;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+}
+
+.bottom {
+}
+
+.top {
+  position: relative;
+  top: -5px;
+}
+
+span {
+  display: block;
+}
+
+.red {
+  color: #cc0033;
+}
+
+.black {
+  color: black;
+}
+
+.card-top {
+  text-align: left;
+}
+
+.card-bottom {
+  text-align: right;
+}
+
+.bidding-button:hover {
+  background-color: black;
+  color: white;
+}
