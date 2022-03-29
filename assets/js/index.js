@@ -8,6 +8,9 @@ const biddingInputEl = document.getElementById("bidding-input");
 const userBidEl = document.getElementById("user-bid");
 const userMsgEl = document.getElementById("user-msg");
 
+userBidEl.textContent = " ";
+userMsgEl.textContent = " ";
+
 const canvasEl = document.getElementById("canvas");
 
 let bidRankEl,
@@ -179,14 +182,16 @@ function openingBid(hand) {
   }
 
   // is there a possible preempt?
-  let longSuits = hand.suitArray.filter((suit) => suit.length > 5)?.length;
-  if (longSuits?.length === 1) {
-    if (longSuits[0].reduce((total, card) => total + card.rank > 11, 0) > 1) {
-      // if 2 of top 3
-      let bid = `${longSuits[0].length - 4}${longSuits[0].suitCode}`;
-      if (bid === "2C") return "PASS";
-      return bid;
-    }
+  let longSuits = hand.suitArray.filter((suit) => suit.length > 5);
+  if (
+    longSuits?.length === 1 &&
+    longSuits[0].reduce((total, card) => total + (card.rank > 11 ? 1 : 0), 0) >
+      1
+  ) {
+    // if 2 of top 3
+    let bid = `${longSuits[0].length - 4}${longSuits[0][0].suitCode}`;
+    if (bid === "2C") return "PASS";
+    return bid;
   }
 
   // if (longSuits?.length === 2) {

@@ -2,11 +2,19 @@
   display: none;
 }
 
-.bg-green {
-  background-color: #339900;
+nav button {
+  text-decoration: underline;
+  border: none;
+  background: none;
 }
+
+nav button:hover {
+  background: white;
+  color: #00b74a;
+}
+
 #hand {
-  background-color: #339900;
+  background-color: #00b74a;
   padding: 10px 85px 10px 10px;
 }
 
